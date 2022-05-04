@@ -96,7 +96,21 @@ Coming soon
 
 ## Usage
 
-coming soon
+To begin using Compend, you must make an account. Click the "Sign up" button on the homepage and enter your email, a username, and a password. If you need the app to share screen space with other windows, you can scale your browser down to a narrow view and the app will still work!
+[![Usage Screen Shot1][usage-screenshot1]](https://example.com)
+
+The main page scaled to 1/5th height:
+[![Usage Screen Shot2][usage-screenshot2]](https://example.com)
+
+Next you will find your way to the landing page. Here, you need to create a campaign in which your NPCs and other compendium data will live.
+[![Usage Screen Shot3][usage-screenshot3]](https://example.com)
+
+When your campaign is complete, click its icon to view the campaign page.
+[![Usage Screen Shot4][usage-screenshot4]](https://example.com)
+
+Now click on one of the tabs and start filling out data for your campaign! Currently NPCs and Location models are supported.
+[![Usage Screen Shot5][usage-screenshot5]](https://example.com)
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -179,4 +193,9 @@ Project Link: [https://github.com/sammark1/Compend](https://github.com/github_us
 [license-url]: https://github.com/sammark1/Compend/blob/main/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/sammarkdev/
-[product-screenshot]: images/screenshot.png
+[product-screenshot]: /ReadmeFiles/NarrowMainpage.png
+[usage-screenshot1]: /ReadmeFiles/FullMainpage.png
+[usage-screenshot2]: /ReadmeFiles/NarrowMainpage.png
+[usage-screenshot3]: /ReadmeFiles/NarrowCampaigns.png
+[usage-screenshot4]: /ReadmeFiles/NarrowCampaign.png
+[usage-screenshot5]: /ReadmeFiles/NarrowCompendium.png

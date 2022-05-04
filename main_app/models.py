@@ -29,60 +29,60 @@ PRONOUN_CHOICES = (
 )
 
 CLASS_CHOICES = (
-    ("Commoner"),
-    ("Barbarian"),
-    ("Bard"),
-    ("Cleric"),
-    ("Druid"),
-    ("Fighter"),
-    ("Monk"),
-    ("Paladin"),
-    ("Ranger"),
-    ("Rogue"),
-    ("Sorcerer"),
-    ("Warlock"),
-    ("Wizard"),
-    ("Artificer"),
-    ("Blood Hunter"),
+    ("Commoner", "Commoner"),
+    ("Barbarian", "Barbarian"),
+    ("Bard", "Bard"),
+    ("Cleric", "Cleric"),
+    ("Druid", "Druid"),
+    ("Fighter", "Fighter"),
+    ("Monk", "Monk"),
+    ("Paladin", "Paladin"),
+    ("Ranger", "Ranger"),
+    ("Rogue", "Rogue"),
+    ("Sorcerer", "Sorcerer"),
+    ("Warlock", "Warlock"),
+    ("Wizard", "Wizard"),
+    ("Artificer", "Artificer"),
+    ("Blood Hunter", "Blood Hunter"),
 )
 
 RACE_CHOICES = (
-    ("Dragonborn"),
-    ("Dwarf"),
-    ("Elf"),
-    ("Gnome"),
-    ("Half-Elf"),
-    ("Halfling"),
-    ("Half-Orc"),
-    ("Human"),
-    ("Teifling"),
-    ("Aarakocra"),
-    ("Genasi"),
-    ("Goliath"),
-    ("Aasimar"),
-    ("Bugbear"),
-    ("Firbolg"),
-    ("Goblin"),
-    ("Hobgoblin"),
-    ("Kenku"),
-    ("Kobold"),
-    ("Lizardfolk"),
-    ("Orc"),
-    ("Tabaxi"),
-    ("Triton"),
-    ("Yuan-ti Pureblood"),
-    ("Tortle"),
-    ("Gith"),
+    ("Dragonborn", "Dragonborn"),
+    ("Dwarf", "Dwarf"),
+    ("Elf", "Elf"),
+    ("Gnome", "Gnome"),
+    ("Half-Elf", "Half-Elf"),
+    ("Halfling", "Halfling"),
+    ("Half-Orc", "Half-Orc"),
+    ("Human", "Human"),
+    ("Teifling", "Teifling"),
+    ("Aarakocra", "Aarakocra"),
+    ("Genasi", "Genasi"),
+    ("Goliath", "Goliath"),
+    ("Aasimar", "Aasimar"),
+    ("Bugbear", "Bugbear"),
+    ("Firbolg", "Firbolg"),
+    ("Goblin", "Goblin"),
+    ("Hobgoblin", "Hobgoblin"),
+    ("Kenku", "Kenku"),
+    ("Kobold", "Kobold"),
+    ("Lizardfolk", "Lizardfolk"),
+    ("Orc", "Orc"),
+    ("Tabaxi", "Tabaxi"),
+    ("Triton", "Triton"),
+    ("Yuan-ti Pureblood", "Yuan-ti Pureblood"),
+    ("Tortle", "Tortle"),
+    ("Gith", "Gith"),
 )
 
 class NPC(models.Model):
     given_name = models.CharField(max_length = 32)
-    family_name = models.CharField(max_length = 32 blank=True)
+    family_name = models.CharField(max_length = 32, blank=True)
     campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE)
-    alignmnet = models.CharField(choices=ALIGNMENT_CHOICES)
-    pronoun = models.CharField(choices = PRONOUN_CHOICES)
-    npc_class = models.CharField(choices = CLASS_CHOICES, default='Commoner')
-    npc_race = models.CharField(choices = RACE_CHOICES)
+    alignmnet = models.CharField(max_length= 32, choices=ALIGNMENT_CHOICES)
+    pronoun = models.CharField(max_length= 32, choices = PRONOUN_CHOICES)
+    npc_class = models.CharField(max_length= 32, choices = CLASS_CHOICES, default='Commoner')
+    npc_race = models.CharField(max_length= 32, choices = RACE_CHOICES)
     age = models.IntegerField(default=20)
     physical = models.CharField(max_length=1024, blank=True)
     profession = models.CharField(max_length=64, blank=True)
@@ -92,4 +92,4 @@ class NPC(models.Model):
         return f"{self.given_name} {self.family_name}"
 
     class Meta:
-        ordering = ['designation']
+        ordering = ['family_name']

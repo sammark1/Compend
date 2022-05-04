@@ -141,6 +141,9 @@ See the [open issues](https://github.com/sammark1/Compend/issues) for a full lis
 ## User flow
 [![Userflow Screen Shot][userflow-screenshot]](https://example.com)
 
+## Development schedule
+[![Schedule Screen Shot][schedule-screenshot]](https://example.com)
+
 <!-- CONTRIBUTING -->
 ## Contributing
 
@@ -182,6 +185,7 @@ Project Link: [https://github.com/sammark1/Compend](https://github.com/github_us
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
+Coming soon
 * []()
 * []()
 * []()
@@ -204,4 +208,5 @@ Project Link: [https://github.com/sammark1/Compend](https://github.com/github_us
 [usage-screenshot3]: /ReadmeFiles/NarrowCampaigns.png
 [usage-screenshot4]: /ReadmeFiles/NarrowCampaign.png
 [usage-screenshot5]: /ReadmeFiles/NarrowCompendium.png
-[userflow-screenshot]: /ReadmeFiles/Compend_Userflow.png
+[userflow-screenshot]: /ReadmeFiles/CompendUserflow.png
+[schedule-screenshot]: /ReadmeFiles/CompendSchedule.png

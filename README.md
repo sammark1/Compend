@@ -66,7 +66,8 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-Compendion is an easy-to-use adventure game compendium for game masters building immersive worlds. Keep track of NPCs, Locations and other details of your world with ease.
+Compend is an easy-to-use adventure game compendium for game masters building immersive worlds. Keep track of NPCs, Locations and other details of your world with ease. In my experience as a GM, spreadsheets aren't convenient enough to keep the players focus from drifting while I look up an NPC or Location description. Compend makes it easy to upload your old spreadsheet as a CSV file and link related data so you always have the right info at your fingertips. 
+Compend is also designed to work when shrunk down to a fraction of your screen so it won't get in the way of your adventure!
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -125,7 +126,7 @@ Now click on one of the tabs and start filling out data for your campaign! Curre
 - [ ] As a user I would like to view a campaign dashboard showing recent changes or reminders
 - [ ] As a user I would like to create, read, update, and delete entries in a list of NPCs for my campaign
 - [ ] As a user I would like to create, read, update, and delete entries in a list of Locations for my campaign
-- [ ] As a user I would like to click on rleated data links to quickly view that data's page
+- [ ] As a user I would like to click on related data links to quickly view that data's page
 - [ ] As a user I would like to search my collection for data entries
 - [ ] As a user I would like to search all collections for data entries marked “public”
 - [ ] As a user I would like to upload CSV files and convert data into the app
@@ -135,6 +136,10 @@ See the [open issues](https://github.com/sammark1/Compend/issues) for a full lis
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
+<!-- Work breakdown structure Pert diagram  -->
+
+## User flow
+[![Userflow Screen Shot][userflow-screenshot]](https://example.com)
 
 <!-- CONTRIBUTING -->
 ## Contributing
@@ -199,3 +204,4 @@ Project Link: [https://github.com/sammark1/Compend](https://github.com/github_us
 [usage-screenshot3]: /ReadmeFiles/NarrowCampaigns.png
 [usage-screenshot4]: /ReadmeFiles/NarrowCampaign.png
 [usage-screenshot5]: /ReadmeFiles/NarrowCompendium.png
+[userflow-screenshot]: /ReadmeFiles/Compend_Userflow.png

@@ -1,8 +1,41 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+# REVIEW WHEN IMPLEMENTING GLOBAL LIST, MAKE DELETE=PRESERVE
+
 class Campaign(models.Model):
     name = models.CharField(max_length = 32)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['name']
+
+# REVIEW CONSIDER MAKING THIS AN INPUT FIELD
+# REVIEW CONSIDER MORE OPTIONS
+LOCATION_CHOICES = (
+    ("Village", "Village"),
+    ("Town", "Town"),
+    ("City", "City"),
+    ("Region", "Region"),
+    ("State", "State"),
+    ("Country", "Country"),
+    ("Province", "Province"),
+    ("Sea", "Sea"),
+    ("Lake", "Lake"),
+    ("Ocean", "Ocean"),
+    ("Continent", "Continent"),
+    ("World", "World"),
+)
+
+class Location(models.Model):
+    name = models.CharField(max_length = 32)
+    campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE)
+    location_type = models.CharField(max_length = 32, choices=LOCATION_CHOICES)
+    geo_location = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name = 'geolocation')
+    political_location = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add = True)
 
     def __str__(self):
         return self.name
@@ -84,8 +117,9 @@ class NPC(models.Model):
     npc_class = models.CharField(max_length= 32, choices = CLASS_CHOICES, default='Commoner')
     npc_race = models.CharField(max_length= 32, choices = RACE_CHOICES)
     age = models.IntegerField(default=20)
-    physical = models.CharField(max_length=1024, blank=True)
+    physical = models.TextField(blank=True)
     profession = models.CharField(max_length=64, blank=True)
+    home = models.ForeignKey(Location, blank=True, on_delete=models.PROTECT)
     created_at = models.DateTimeField(auto_now_add = True)
 
     def __str__(self):

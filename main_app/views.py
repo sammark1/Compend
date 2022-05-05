@@ -2,7 +2,9 @@ from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic.base import TemplateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
+from .models import Campaign
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
@@ -54,3 +56,10 @@ def login_view(request):
     else:
         form = AuthenticationForm()
         return render(request, 'login.html', {'form': form})
+
+class Campaign_Create(CreateView):
+    model = Campaign
+    fields = '__all__'
+    template_name = 'campaign_create.html'
+    success_url = '/'
+    

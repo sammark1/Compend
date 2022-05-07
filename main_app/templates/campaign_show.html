@@ -4,6 +4,7 @@
 
     <div>
         <a href="{% url 'Campaign_Update' campaign.pk %}">Update</a>
-        <a href=""></a>
+        <a href="{% url 'Campaign_Delete' campaign.pk %}">Delete</a>
+        <a href="{% url 'Campaign_List'%}">Back</a>
     </div>
 {% endblock %}

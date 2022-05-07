@@ -79,7 +79,7 @@ class Campaign_Create(CreateView):
     fields = '__all__'
     template_name = 'campaign_create.html'
     def get_success_url(self):
-        return reverse('Campaign_Detail', kwargs={'pk':self.object.pk})
+        return reverse('Campaign_Show', kwargs={'pk':self.object.pk})
     
 class Campaign_Show(DetailView):
     model = Campaign
@@ -91,3 +91,8 @@ class Campaign_Update(UpdateView):
     template_name = "campaign_update.html"
     def get_success_url(self):
         return reverse('Campaign_Show', kwargs={'pk':self.object.pk})
+
+class Campaign_Delete(DeleteView):
+    model = Campaign
+    template_name = "campaign_delete.html"
+    success_url = "/campaign/"

@@ -6,7 +6,7 @@ from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
 from django.urls import reverse
-from .models import Campaign, NPC
+from .models import Campaign, NPC, Location
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
@@ -129,5 +129,40 @@ class NPC_Delete(DeleteView):
     model = NPC
     template_name = "npc_delete.html"
     success_url = "/npc/"
+
+# !SECTION
+
+#SECTION Location VIEWS
+
+class Location_List (TemplateView):
+    template_name = 'location_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["locations"] = Location.objects.all()
+        return context
+    
+class Location_Create(CreateView):
+    model = Location
+    fields = '__all__'
+    template_name = 'location_create.html'
+    def get_success_url(self):
+        return reverse('Location_Show', kwargs={'pk':self.object.pk})
+    
+class Location_Show(DetailView):
+    model = Location
+    template_name = "location_show.html"
+
+class Location_Update(UpdateView):
+    model = Location
+    fields = '__all__'
+    template_name = "location_update.html"
+    def get_success_url(self):
+        return reverse('Location_Show', kwargs={'pk':self.object.pk})
+
+class Location_Delete(DeleteView):
+    model = Location
+    template_name = "location_delete.html"
+    success_url = "/location/"
 
 # !SECTION

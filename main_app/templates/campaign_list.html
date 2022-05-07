@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block body %}
+    <h1>Campaigns:</h1>
+    {% for campaign in campaigns %}
+    <h3>Name: {{campaign.name}}</h3>
+    {% endfor %}
+{% endblock %}

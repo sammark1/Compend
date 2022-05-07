@@ -57,12 +57,21 @@ def login_view(request):
         form = AuthenticationForm()
         return render(request, 'login.html', {'form': form})
 
+class Campaign_List (TemplateView):
+    template_name = 'campaign_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["campaigns"] = Campaign.objects.all()
+        return context
+        
+
 class Campaign_Create(CreateView):
     model = Campaign
     fields = '__all__'
     template_name = 'campaign_create.html'
     success_url = '/'
     
-def Campaigns(request, campaign_id):
+def Campaign_Show(request, campaign_id):
     campaign=Campaign.objects.get(id=campaign_id)
     return render(request, 'campaign_show.html', {'campaign': campaign})

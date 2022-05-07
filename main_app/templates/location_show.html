@@ -1,0 +1,16 @@
+{% extends 'base.html' %} 
+{% block body %}
+<h3>In the campaign:</h3>     
+    <a href = "{% url 'Campaign_Show' location.campaign.pk %}">
+    <h3>{{location.campaign}}</h3>
+    </a>
+	<h1>Location:{{location.name}}</h1>
+
+
+
+    <div>
+        <a href="{% url 'Location_Update' location.pk %}">Update</a>
+        <a href="{% url 'Location_Delete' location.pk %}">Delete</a>
+        <a href="{% url 'Location_List'%}">Back</a>
+    </div>
+{% endblock %}

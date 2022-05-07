@@ -1,11 +1,11 @@
 {% extends 'base.html' %} 
 {% block body %}
-	<h1>Create NPC</h1>
+	<h1>Create Location</h1>
 	
 	<form method="post">
 		  {% csrf_token %} 
 		  {{form.as_p}} 
-		  <input type="submit" value="Create NPC" />
+		  <input type="submit" value="Create Location" />
 	</form>
 
 {% endblock %}

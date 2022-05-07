@@ -97,18 +97,14 @@ class Campaign_Delete(DeleteView):
     template_name = "campaign_delete.html"
     success_url = "/campaign/"
 
+#SECTION NPC VIEWS
+
 class NPC_List (TemplateView):
     template_name = 'npc_list.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        search = self.request.GET.get("search")
-        if search != None:
-            context["npcs"] = NPC.objects.filter(name__icontains=search)
-            context["header"] = f"Searching for {search}"
-        else:
-            context["campaigns"] = Campaign.objects.all()
-            context["header"] = "search"
+        context["npcs"] = NPC.objects.all()
         return context
     
 class NPC_Create(CreateView):
@@ -133,3 +129,5 @@ class NPC_Delete(DeleteView):
     model = NPC
     template_name = "npc_delete.html"
     success_url = "/npc/"
+
+# !SECTION

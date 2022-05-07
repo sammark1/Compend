@@ -1,0 +1,16 @@
+{% extends 'base.html' %} 
+{% block body %}
+<h3>In the campaign:</h3>     
+    <a href = "{% url 'Campaign_Show' npc.campaign.pk %}">
+    <h3>{{npc.campaign}}</h3>
+    </a>
+	<h1>NPC:{{npc.given_name}} {{npc.family_name}} ({{npc.pronoun}})</h1>
+
+
+
+    <div>
+        <a href="{% url 'NPC_Update' npc.pk %}">Update</a>
+        <a href="{% url 'NPC_Delete' npc.pk %}">Delete</a>
+        <a href="{% url 'NPC_List'%}">Back</a>
+    </div>
+{% endblock %}

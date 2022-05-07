@@ -63,3 +63,6 @@ class Campaign_Create(CreateView):
     template_name = 'campaign_create.html'
     success_url = '/'
     
+def Campaigns(request, campaign_id):
+    campaign=Campaign.objects.get(id=campaign_id)
+    return render(request, 'campaign_show.html', {'campaign': campaign})

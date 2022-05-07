@@ -8,4 +8,6 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('signup/', views.signup_view, name='signup'),
     path('campaign/create/', views.Campaign_Create.as_view(), name="Campaign_Create"),
+    path('campaign/<int:campaign_id>', views.Campaign_Show, name="Campaign_Show"),
+    
 ]

@@ -6,7 +6,7 @@ from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
 from django.urls import reverse
-from .models import Campaign
+from .models import Campaign, NPC
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
@@ -96,3 +96,40 @@ class Campaign_Delete(DeleteView):
     model = Campaign
     template_name = "campaign_delete.html"
     success_url = "/campaign/"
+
+class NPC_List (TemplateView):
+    template_name = 'npc_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        search = self.request.GET.get("search")
+        if search != None:
+            context["npcs"] = NPC.objects.filter(name__icontains=search)
+            context["header"] = f"Searching for {search}"
+        else:
+            context["campaigns"] = Campaign.objects.all()
+            context["header"] = "search"
+        return context
+    
+class NPC_Create(CreateView):
+    model = NPC
+    fields = '__all__'
+    template_name = 'npc_create.html'
+    def get_success_url(self):
+        return reverse('NPC_Show', kwargs={'pk':self.object.pk})
+    
+class NPC_Show(DetailView):
+    model = NPC
+    template_name = "npc_show.html"
+
+class NPC_Update(UpdateView):
+    model = NPC
+    fields = '__all__'
+    template_name = "npc_update.html"
+    def get_success_url(self):
+        return reverse('NPC_Show', kwargs={'pk':self.object.pk})
+
+class NPC_Delete(DeleteView):
+    model = NPC
+    template_name = "npc_delete.html"
+    success_url = "/npc/"

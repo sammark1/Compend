@@ -10,5 +10,6 @@ urlpatterns = [
     path('campaign/', views.Campaign_List.as_view(), name="Campaign_List"),
     path('campaign/create/', views.Campaign_Create.as_view(), name="Campaign_Create"),
     path('campaign/<int:pk>', views.Campaign_Show.as_view(), name="Campaign_Show"),
+    path('campaign/<int:pk>/update', views.Campaign_Update.as_view(), name="Campaign_Update"),
 
 ]

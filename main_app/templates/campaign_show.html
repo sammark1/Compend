@@ -2,4 +2,8 @@
 {% block body %}
 	<h1>Campaign:{{campaign.name}}</h1>
 
+    <div>
+        <a href="{% url 'Campaign_Update' campaign.pk %}">Update</a>
+        <a href=""></a>
+    </div>
 {% endblock %}

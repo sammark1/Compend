@@ -5,6 +5,7 @@ from django.views.generic.base import TemplateView
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
+from django.urls import reverse
 from .models import Campaign
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -77,8 +78,16 @@ class Campaign_Create(CreateView):
     model = Campaign
     fields = '__all__'
     template_name = 'campaign_create.html'
-    success_url = '/'
+    def get_success_url(self):
+        return reverse('Campaign_Detail', kwargs={'pk':self.object.pk})
     
 class Campaign_Show(DetailView):
     model = Campaign
     template_name = "campaign_show.html"
+
+class Campaign_Update(UpdateView):
+    model = Campaign
+    fields = '__all__'
+    template_name = "campaign_update.html"
+    def get_success_url(self):
+        return reverse('Campaign_Show', kwargs={'pk':self.object.pk})

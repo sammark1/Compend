@@ -12,5 +12,9 @@ urlpatterns = [
     path('campaign/<int:pk>', views.Campaign_Show.as_view(), name="Campaign_Show"),
     path('campaign/<int:pk>/update', views.Campaign_Update.as_view(), name="Campaign_Update"),
     path('campaign/<int:pk>/delete', views.Campaign_Delete.as_view(), name="Campaign_Delete"),
-
+    path('npc/', views.NPC.as_view(), name="NPC"),
+    path('npc/create/', views.NPC_Create.as_view(), name="NPC_Create"),
+    path('npc/<int:pk>', views.NPC_Show.as_view(), name="NPC_Show"),
+    path('npc/<int:pk>/update', views.NPC_Update.as_view(), name="NPC_Update"),
+    path('npc/<int:pk>/delete', views.NPC_Delete.as_view(), name="NPC_Delete"),
 ]

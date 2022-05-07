@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic.base import TemplateView
+from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
 from .models import Campaign
@@ -62,7 +63,13 @@ class Campaign_List (TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["campaigns"] = Campaign.objects.all()
+        search = self.request.GET.get("search")
+        if search != None:
+            context["campaigns"] = Campaign.objects.filter(name__icontains=search)
+            context["header"] = f"Searching for {search}"
+        else:
+            context["campaigns"] = Campaign.objects.all()
+            context["header"] = "search"
         return context
         
 
@@ -72,6 +79,6 @@ class Campaign_Create(CreateView):
     template_name = 'campaign_create.html'
     success_url = '/'
     
-def Campaign_Show(request, campaign_id):
-    campaign=Campaign.objects.get(id=campaign_id)
-    return render(request, 'campaign_show.html', {'campaign': campaign})
+class Campaign_Show(DetailView):
+    model = Campaign
+    template_name = "campaign_show.html"

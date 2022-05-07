@@ -1,7 +1,15 @@
 {% extends 'base.html' %}
 {% block body %}
-    <h1>Campaigns:</h1>
+    <div>
+        <input type="text" name="name" placeholder="name"/>
+        <input type="submit" value="Search"/>
+    </div>
+    <a href="{% url 'Campaign_List' %}">Clear Search</a>
+    <h1>Campaigns:</h1><h1>{{header}}</h1>
     {% for campaign in campaigns %}
-    <h3>Name: {{campaign.name}}</h3>
+    <a href="{% url 'Campaign_Show' campaign.pk %}">
+        <h3>Name: {{campaign.name}}</h3>
+    </a>
     {% endfor %}
+    <a href="{% url 'Campaign_Create' %}">New Campaign</a>
 {% endblock %}

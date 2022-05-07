@@ -58,7 +58,7 @@ ALIGNMENT_CHOICES = (
 PRONOUN_CHOICES = (
     ("they", "They/Them"),
     ("she", "She/Her"),
-    ("he", "he/him"),
+    ("he", "He/Him"),
 )
 
 CLASS_CHOICES = (

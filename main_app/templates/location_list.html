@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block body %}
+    <h1>Locations:</h1>
+    {% for location in locations %}
+    <a href="{% url 'Location_Show' location.pk %}">
+        <h3>Name: {{location.name}}</h3>
+    </a>
+    {% endfor %}
+    <a href="{% url 'Location_Create' %}">New Location</a>
+{% endblock %}

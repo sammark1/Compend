@@ -1,0 +1,12 @@
+{% extends 'base.html' %} 
+
+{% block body %}
+<h1>Are you sure you want to Delete {{npc.given_name}} {{npc.family_name}}?</h1>
+<form method="post">
+  {% csrf_token %}
+  <div>
+    <input type="submit" value="Confirm" />
+    <a href="{% url 'NPC_Show' npc.pk %}">Cancel</a>
+  </div>
+</form>
+{% endblock %}

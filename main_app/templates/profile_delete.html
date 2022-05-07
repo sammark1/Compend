@@ -1,0 +1,13 @@
+{% extends 'base.html' %} 
+
+{% block body %}
+<h1>Are you sure you want to Delete your account, {{user.username}}?</h1>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <div>
+    <input type="submit" value="Confirm" />
+    <a href="{% url 'profile' user.username%}">Cancel</a>
+  </div>
+</form>
+{% endblock %}

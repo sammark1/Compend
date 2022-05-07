@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block body %}
+    <h1>NPC:</h1>
+    {% for npc in npcs %}
+    <a href="{% url 'NPC_Show' npc.pk %}">
+        <h3>Name: {{npc.given_name}}</h3>
+    </a>
+    {% endfor %}
+    <a href="{% url 'NPC_Create' %}">New NPC</a>
+{% endblock %}

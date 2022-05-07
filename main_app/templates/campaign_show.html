@@ -1,0 +1,10 @@
+{% extends 'base.html' %} 
+{% block body %}
+	<h1>Campaign:{{campaign.name}}</h1>
+
+    <div>
+        <a href="{% url 'Campaign_Update' campaign.pk %}">Update</a>
+        <a href="{% url 'Campaign_Delete' campaign.pk %}">Delete</a>
+        <a href="{% url 'Campaign_List'%}">Back</a>
+    </div>
+{% endblock %}

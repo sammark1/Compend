@@ -7,9 +7,10 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
 from django.urls import reverse
 from .models import Campaign, NPC, Location
-from .forms import Profile_Delete_Form
+from .forms import Profile_Delete_Form, Location_Update_Form
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from datetime import datetime
 
 
 class Home(TemplateView):
@@ -107,8 +108,12 @@ class Campaign_Update(UpdateView):
     model = Campaign
     fields = '__all__'
     template_name = "campaign_update.html"
-    def get_success_url(self):
-        return reverse('Campaign_Show', kwargs={'pk':self.object.pk})
+    
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.updated_at = datetime.now()
+        self.object.save()
+        return HttpResponseRedirect(f'/campaign/{self.object.id}')
 
 class Campaign_Delete(DeleteView):
     model = Campaign
@@ -140,8 +145,12 @@ class NPC_Update(UpdateView):
     model = NPC
     fields = '__all__'
     template_name = "npc_update.html"
-    def get_success_url(self):
-        return reverse('NPC_Show', kwargs={'pk':self.object.pk})
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.updated_at = datetime.now()
+        self.object.save()
+        return HttpResponseRedirect(f'/npc/{self.object.id}')
 
 class NPC_Delete(DeleteView):
     model = NPC
@@ -175,8 +184,27 @@ class Location_Update(UpdateView):
     model = Location
     fields = '__all__'
     template_name = "location_update.html"
-    def get_success_url(self):
-        return reverse('Location_Show', kwargs={'pk':self.object.pk})
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.updated_at = datetime.now()
+        self.object.save()
+        return HttpResponseRedirect(f'/location/{self.object.id}')
+
+# def Location_Update (request, location_id):
+#     location = Location.objects.get(id=location_id)
+#     if request.method == 'POST':
+#         form = Location_Update_Form(request.POST)
+#         if form.is_valid():
+#             location
+#             location.save()
+#             return HttpResponseRedirect(f'/location/{location_id}')
+#         else:
+#             return render(request, 'location_show.html', {'form':form, 'location':location})
+#     else:
+#         form = Location_Update_Form()
+#         return render(request, 'location_update.html', {'form':form, 'location':location})
+
 
 class Location_Delete(DeleteView):
     model = Location

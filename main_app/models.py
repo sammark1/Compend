@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 
 class Campaign(models.Model):
     name = models.CharField(max_length = 32)
+    updated_at = models.DateTimeField(auto_now_add = True, null=True)
+    created_at = models.DateTimeField(auto_now_add = True, null=True)
 
     def __str__(self):
         return self.name
@@ -35,6 +37,7 @@ class Location(models.Model):
     location_type = models.CharField(max_length = 32, choices=LOCATION_CHOICES)
     geo_location = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name = 'geolocation')
     political_location = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
+    updated_at = models.DateTimeField(auto_now_add = True, null=True)
     created_at = models.DateTimeField(auto_now_add = True)
 
     def __str__(self):
@@ -119,7 +122,8 @@ class NPC(models.Model):
     age = models.IntegerField(default=20)
     physical = models.TextField(blank=True)
     profession = models.CharField(max_length=64, blank=True)
-    home = models.ForeignKey(Location, blank=True, on_delete=models.PROTECT)
+    home = models.ForeignKey(Location, blank=True, null=True, on_delete=models.SET_NULL)
+    updated_at = models.DateTimeField(auto_now_add = True, null=True)
     created_at = models.DateTimeField(auto_now_add = True)
 
     def __str__(self):

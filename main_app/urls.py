@@ -24,4 +24,6 @@ urlpatterns = [
     path('location/<int:pk>', views.Location_Show.as_view(), name="Location_Show"),
     path('location/<int:pk>/update', views.Location_Update.as_view(), name="Location_Update"),
     path('location/<int:pk>/delete', views.Location_Delete.as_view(), name="Location_Delete"),
+
+    path('filetest', views.upload_file, name='upload_file')
 ]

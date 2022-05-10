@@ -7,7 +7,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
 from django.urls import reverse
 from .models import Campaign, NPC, Location
-from .forms import Profile_Delete_Form, Location_Update_Form
+from .forms import Profile_Delete_Form, UploadFileForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from datetime import datetime
@@ -211,4 +211,19 @@ class Location_Delete(DeleteView):
     template_name = "location_delete.html"
     success_url = "/location/"
 
+# !SECTION
+
+#SECTION File up
+
+def upload_file(request):
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            return HttpResponseRedirect('/location/')
+        else:
+            print('something went wrong')
+            return render(request, 'upload.html', {'form':form})
+    else:
+        form = UploadFileForm()
+        return render(request, 'upload.html', {'form':form})
 # !SECTION

@@ -219,10 +219,10 @@ class Location_Delete(DeleteView):
 def upload_csv(request, pk):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
-        if form.is_valid():
+        if form.is_valid() and str(request.FILES['file'])[-4:]==".csv":
             data=(request.FILES['file'].read()).decode("utf-8")
-            print(data)
-            # print(data)
+            # print(str(request.FILES['file'])[-4:])
+            data_type = (form.cleaned_data['data_type'])
             return HttpResponseRedirect('/location/')
         else:
             print('something went wrong')
@@ -230,4 +230,9 @@ def upload_csv(request, pk):
     else:
         form = UploadFileForm()
         return render(request, 'upload.html', {'form':form})
+
+# def decode_csv(data, data_type):
+
+# confirm file is CSV
+
 # !SECTION

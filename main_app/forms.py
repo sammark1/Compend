@@ -8,7 +8,7 @@ MODEL_CHOICES = (
     ('Location', 'Location'),
 )
 
-class UploadFileForm(forms.Form):
+class Upload_File_Form(forms.Form):
     title = forms.CharField(label="title", max_length=50)
     data_type = forms.CharField(label="Select a model", max_length=32, widget=forms.Select(choices=MODEL_CHOICES))
     file = forms.FileField()
@@ -18,7 +18,7 @@ class Profile_Delete_Form(ModelForm):
         model = User
         fields=[]
 
-# class Location_Update_Form(ModelForm):
-#     class Meta:
-#         model = Location
-#         fields='__all__'
+class Location_Upload_Form(ModelForm):
+    class Meta:
+        model = Location
+        fields=['name', 'campaign', 'location_type', 'description']

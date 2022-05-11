@@ -37,6 +37,7 @@ class Location(models.Model):
     location_type = models.CharField(max_length = 32, choices=LOCATION_CHOICES)
     geo_location = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name = 'geolocation')
     political_location = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
+    description = models.CharField(max_length = 512, null=True)
     updated_at = models.DateTimeField(auto_now_add = True, null=True)
     created_at = models.DateTimeField(auto_now_add = True)
 

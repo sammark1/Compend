@@ -7,7 +7,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
 from django.urls import reverse
 from .models import Campaign, NPC, Location
-from .forms import Profile_Delete_Form, UploadFileForm
+from .forms import Profile_Delete_Form, Upload_File_Form, Location_Upload_Form
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from datetime import datetime
@@ -217,22 +217,47 @@ class Location_Delete(DeleteView):
 #SECTION File up
 
 def upload_csv(request, pk):
+    campaign = Campaign.objects.get(pk=pk)
     if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES)
+        form = Upload_File_Form(request.POST, request.FILES)
         if form.is_valid() and str(request.FILES['file'])[-4:]==".csv":
-            data=(request.FILES['file'].read()).decode("utf-8")
-            # print(str(request.FILES['file'])[-4:])
+            data=(request.FILES['file'].read()).decode("utf-8")    
             data_type = (form.cleaned_data['data_type'])
+            match data_type:
+                case "NPC":
+                    print("NPC")
+                case "Location":
+                    rows=data.split("\n")
+                    for line in rows:
+                        print(line)
+                        entries=line.split(',')
+                        save_instance=Location.objects.create(
+                            name=entries[0],
+                            campaign=campaign,
+                            location_type=entries[1],
+                            description=entries[4],
+                        )
+                        save_instance.save()
+                        # data_dict = {
+                        #     "name":entries[0],
+                        #     "location_type":entries[1],
+                        #     # "geo_location":entries[3],
+                        #     # "political_location":entries[2],
+                        #     "description":entries[4],
+                        # }
+                        # print ('data_dict',data_dict)
+                        # save_form=Location_Upload_Form(data_dict)
+                        # if save_form.is_valid():
+                        #     save_form.save()
+                        # else:
+                        #     print('something went wrong with form saving')
+                        #     return render(request, 'upload.html', {'form':form})
             return HttpResponseRedirect('/location/')
         else:
             print('something went wrong')
             return render(request, 'upload.html', {'form':form})
     else:
-        form = UploadFileForm()
-        return render(request, 'upload.html', {'form':form})
-
-# def decode_csv(data, data_type):
-
-# confirm file is CSV
-
+        form = Upload_File_Form()
+        return render(request, 'upload.html', {'form':form, 'campaign':campaign})
+                
 # !SECTION

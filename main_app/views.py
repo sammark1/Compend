@@ -11,6 +11,7 @@ from .forms import Profile_Delete_Form, UploadFileForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from datetime import datetime
+import csv
 
 
 class Home(TemplateView):
@@ -215,10 +216,13 @@ class Location_Delete(DeleteView):
 
 #SECTION File up
 
-def upload_file(request):
+def upload_csv(request, pk):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
+            data=(request.FILES['file'].read()).decode("utf-8")
+            print(data)
+            # print(data)
             return HttpResponseRedirect('/location/')
         else:
             print('something went wrong')

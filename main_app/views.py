@@ -12,6 +12,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from datetime import datetime
 import csv
+import re
 
 
 class Home(TemplateView):
@@ -223,14 +224,34 @@ def upload_csv(request, pk):
         if form.is_valid() and str(request.FILES['file'])[-4:]==".csv":
             data=(request.FILES['file'].read()).decode("utf-8")    
             data_type = (form.cleaned_data['data_type'])
-            match data_type:
-                case "NPC":
-                    print("NPC")
-                case "Location":
-                    rows=data.split("\n")
-                    for line in rows:
-                        print(line)
-                        entries=line.split(',')
+            rows=data.split("\n")
+            print(rows)
+            for line in rows[1:]:
+                # if re.search('("[^",]+),([^"]+")', line):
+                #     blarp = re.split('("[^",]+),([^"]+")', line)
+                #     print(blarp)
+                #     for i in range(len(blarp)):
+                #         if '"' in blarp[i]:
+                #             print(blarp[i])
+                entries=line.split(',')
+                match data_type:
+                    case "NPC":
+                        save_instance=NPC.objects.create(
+                            title = entries[0],
+                            given_name = entries[1],
+                            family_name = entries[2],
+                            campaign = campaign,
+                            alignment = entries[3],
+                            pronoun = entries[4],
+                            npc_class = entries[5],
+                            npc_race = entries[6],
+                            
+                            physical = [8],
+                            profession = [9],
+                        )
+                        save_instance.save()
+                        return HttpResponseRedirect('/npc/')
+                    case "Location":
                         save_instance=Location.objects.create(
                             name=entries[0],
                             campaign=campaign,
@@ -238,21 +259,7 @@ def upload_csv(request, pk):
                             description=entries[4],
                         )
                         save_instance.save()
-                        # data_dict = {
-                        #     "name":entries[0],
-                        #     "location_type":entries[1],
-                        #     # "geo_location":entries[3],
-                        #     # "political_location":entries[2],
-                        #     "description":entries[4],
-                        # }
-                        # print ('data_dict',data_dict)
-                        # save_form=Location_Upload_Form(data_dict)
-                        # if save_form.is_valid():
-                        #     save_form.save()
-                        # else:
-                        #     print('something went wrong with form saving')
-                        #     return render(request, 'upload.html', {'form':form})
-            return HttpResponseRedirect('/location/')
+                        return HttpResponseRedirect('/location/')
         else:
             print('something went wrong')
             return render(request, 'upload.html', {'form':form})

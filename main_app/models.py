@@ -113,10 +113,11 @@ RACE_CHOICES = (
 )
 
 class NPC(models.Model):
+    title = models.CharField(max_length = 32, null=True, blank=True)
     given_name = models.CharField(max_length = 32)
     family_name = models.CharField(max_length = 32, blank=True)
     campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE)
-    alignmnet = models.CharField(max_length= 32, choices=ALIGNMENT_CHOICES)
+    alignment = models.CharField(max_length= 32, choices=ALIGNMENT_CHOICES)
     pronoun = models.CharField(max_length= 32, choices = PRONOUN_CHOICES)
     npc_class = models.CharField(max_length= 32, choices = CLASS_CHOICES, default='Commoner')
     npc_race = models.CharField(max_length= 32, choices = RACE_CHOICES)

@@ -7,10 +7,12 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
 from django.urls import reverse
 from .models import Campaign, NPC, Location
-from .forms import Profile_Delete_Form, UploadFileForm
+from .forms import Profile_Delete_Form, Upload_File_Form, Location_Upload_Form
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from datetime import datetime
+import csv
+import re
 
 
 class Home(TemplateView):
@@ -215,15 +217,83 @@ class Location_Delete(DeleteView):
 
 #SECTION File up
 
-def upload_file(request):
+def upload_csv(request, pk):
+    campaign = Campaign.objects.get(pk=pk)
     if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            return HttpResponseRedirect('/location/')
+        form = Upload_File_Form(request.POST, request.FILES)
+        if form.is_valid() and str(request.FILES['file'])[-4:]==".csv":
+            data=(request.FILES['file'].read()).decode("utf-8")    
+            data_type = (form.cleaned_data['data_type'])
+            rows=data.split("\n")
+            for line in rows[1:]:
+                if re.search('("(?:[^,"\n]+,[^,"\n]+)+")',line):
+                    print(line)
+                    quoted = re.split('("(?:[^,"\n]+,[^,"\n]+)+")', line)
+                    for i, section in enumerate(quoted):
+                        if '"' in section:
+                            section=section.replace(",",";")
+                            section=section.replace('"','')
+                            quoted[i]=section
+                            # print(quoted)
+                    line=''.join(quoted)
+                    print(line)
+
+                # ,(?=.*")(?<=".*) matches any comma between any quotes
+                # (?<=")(.*?)(?=") matches anything between any quotes
+                # "[^"]+" matches anything between pairs of quotes
+                # ("[^"]+(?=,)) matches a quote and any characters upto but not including a ,
+                # ("[^"\n]*(?=,)),((?<=,)[^"\n]*") captures all between quotes
+                #  (?<="[^,\n]+(?=,)), almost works but only grabs one comma
+
+                # ("[^,"\n]+),([^,"\n]+")
+                    # for each hit on the search
+                    # get string index of start of string
+                    # store quotes string as temp string
+                    # swap "," char with ";"
+                    # insert temp string at stored index
+
+
+                
+                # blarp = re.split('("[^",]+),([^"]+")', line)
+                # print(blarp)
+                #     for i in range(len(blarp)):
+                #         if '"' in blarp[i]:
+                #             print(blarp[i])
+                entries=line.split(',')
+                match data_type:
+                    case "NPC":
+                        save_instance=NPC.objects.create(
+                            title = entries[0],
+                            given_name = entries[1],
+                            family_name = entries[2],
+                            campaign = campaign,
+                            alignment = entries[3],
+                            pronoun = entries[4],
+                            npc_class = entries[5],
+                            npc_race = entries[6],
+                            
+                            physical = [8],
+                            profession = [9],
+                        )
+                        save_instance.save()
+                    case "Location":
+                        save_instance=Location.objects.create(
+                            name=entries[0],
+                            campaign=campaign,
+                            location_type=entries[1],
+                            description=entries[4],
+                        )
+                        save_instance.save()
+            match data_type:
+                case "NPC":
+                    return HttpResponseRedirect('/npc/')
+                case "Location":
+                    return HttpResponseRedirect('/location/')
         else:
             print('something went wrong')
             return render(request, 'upload.html', {'form':form})
     else:
-        form = UploadFileForm()
-        return render(request, 'upload.html', {'form':form})
+        form = Upload_File_Form()
+        return render(request, 'upload.html', {'form':form, 'campaign':campaign})
+                
 # !SECTION

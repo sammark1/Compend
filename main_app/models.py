@@ -37,6 +37,7 @@ class Location(models.Model):
     location_type = models.CharField(max_length = 32, choices=LOCATION_CHOICES)
     geo_location = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name = 'geolocation')
     political_location = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
+    description = models.CharField(max_length = 512, null=True)
     updated_at = models.DateTimeField(auto_now_add = True, null=True)
     created_at = models.DateTimeField(auto_now_add = True)
 
@@ -112,10 +113,11 @@ RACE_CHOICES = (
 )
 
 class NPC(models.Model):
+    title = models.CharField(max_length = 32, null=True, blank=True)
     given_name = models.CharField(max_length = 32)
     family_name = models.CharField(max_length = 32, blank=True)
     campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE)
-    alignmnet = models.CharField(max_length= 32, choices=ALIGNMENT_CHOICES)
+    alignment = models.CharField(max_length= 32, choices=ALIGNMENT_CHOICES)
     pronoun = models.CharField(max_length= 32, choices = PRONOUN_CHOICES)
     npc_class = models.CharField(max_length= 32, choices = CLASS_CHOICES, default='Commoner')
     npc_race = models.CharField(max_length= 32, choices = RACE_CHOICES)

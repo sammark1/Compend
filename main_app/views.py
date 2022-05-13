@@ -225,11 +225,10 @@ def upload_csv(request, pk):
             data=(request.FILES['file'].read()).decode("utf-8")    
             data_type = (form.cleaned_data['data_type'])
             rows=data.split("\n")
-            # print(rows)
             for line in rows[1:]:
-                if re.search('("[^,"\n]+,[^,"\n]+")',line):
+                if re.search('("(?:[^,"\n]+,[^,"\n]+)+")',line):
                     print(line)
-                    quoted = re.split('("[^,"\n]+,[^,"\n]+")', line)
+                    quoted = re.split('("(?:[^,"\n]+,[^,"\n]+)+")', line)
                     for i, section in enumerate(quoted):
                         if '"' in section:
                             section=section.replace(",",";")

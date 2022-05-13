@@ -225,11 +225,38 @@ def upload_csv(request, pk):
             data=(request.FILES['file'].read()).decode("utf-8")    
             data_type = (form.cleaned_data['data_type'])
             rows=data.split("\n")
-            print(rows)
+            # print(rows)
             for line in rows[1:]:
-                # if re.search('("[^",]+),([^"]+")', line):
-                #     blarp = re.split('("[^",]+),([^"]+")', line)
-                #     print(blarp)
+                if re.search('("[^,"\n]+,[^,"\n]+")',line):
+                    print(line)
+                    quoted = re.split('("[^,"\n]+,[^,"\n]+")', line)
+                    for i, section in enumerate(quoted):
+                        if '"' in section:
+                            section=section.replace(",",";")
+                            section=section.replace('"','')
+                            quoted[i]=section
+                            # print(quoted)
+                    line=''.join(quoted)
+                    print(line)
+
+                # ,(?=.*")(?<=".*) matches any comma between any quotes
+                # (?<=")(.*?)(?=") matches anything between any quotes
+                # "[^"]+" matches anything between pairs of quotes
+                # ("[^"]+(?=,)) matches a quote and any characters upto but not including a ,
+                # ("[^"\n]*(?=,)),((?<=,)[^"\n]*") captures all between quotes
+                #  (?<="[^,\n]+(?=,)), almost works but only grabs one comma
+
+                # ("[^,"\n]+),([^,"\n]+")
+                    # for each hit on the search
+                    # get string index of start of string
+                    # store quotes string as temp string
+                    # swap "," char with ";"
+                    # insert temp string at stored index
+
+
+                
+                # blarp = re.split('("[^",]+),([^"]+")', line)
+                # print(blarp)
                 #     for i in range(len(blarp)):
                 #         if '"' in blarp[i]:
                 #             print(blarp[i])
@@ -250,7 +277,6 @@ def upload_csv(request, pk):
                             profession = [9],
                         )
                         save_instance.save()
-                        return HttpResponseRedirect('/npc/')
                     case "Location":
                         save_instance=Location.objects.create(
                             name=entries[0],
@@ -259,7 +285,11 @@ def upload_csv(request, pk):
                             description=entries[4],
                         )
                         save_instance.save()
-                        return HttpResponseRedirect('/location/')
+            match data_type:
+                case "NPC":
+                    return HttpResponseRedirect('/npc/')
+                case "Location":
+                    return HttpResponseRedirect('/location/')
         else:
             print('something went wrong')
             return render(request, 'upload.html', {'form':form})

@@ -2,9 +2,62 @@
 {% block body %}
     <h1>NPC:</h1>
     {% for npc in npcs %}
-    <a href="{% url 'NPC_Show' npc.pk %}">
-        <h3>Name: {{npc.given_name}}</h3>
-    </a>
+    <div class="container">
+          <div class="row">
+            <div class="col">
+                <a href="{% url 'NPC_Show' npc.pk %}">
+                {{npc.title}}
+                </a>
+            </div>
+            <div class="col">
+                <a href="{% url 'NPC_Show' npc.pk %}">
+                {{npc.given_name}}
+                </a>
+            </div>
+            <div class="col">
+                <a href="{% url 'NPC_Show' npc.pk %}">
+                {{npc.family_name}}
+                </a>
+            </div>
+            <div class="col">
+                <a href="{% url 'NPC_Show' npc.pk %}">
+                {{npc.pronoun}}
+                </a>
+            </div>
+            <div class="col">
+                <a href="{% url 'NPC_Show' npc.pk %}">
+                {{npc.alignment}}
+                </a>
+            </div>
+            <div class="col">
+                <a href="{% url 'NPC_Show' npc.pk %}">
+                {{npc.npc_race}}
+                </a>
+            </div>
+            <div class="col">
+                <a href="{% url 'NPC_Show' npc.pk %}">
+                {{npc.npc_class}}
+                </a>
+            </div>
+            <div class="col">
+                <a href="{% url 'NPC_Show' npc.pk %}">
+                {{npc.age}}
+                </a>
+            </div>
+            <div class="col">
+                <a href="{% url 'NPC_Show' npc.pk %}">
+                {{npc.profession}}
+                </a>
+            </div>
+            <div class="col">
+                {% if npc.home %}
+                <a href="{% url 'Location_Show' npc.home.id %}">
+                {{npc.home}}
+                </a>
+                {% endif %}
+            </div>
+          </div>
+        </div>
     {% endfor %}
     <a href="{% url 'NPC_Create' %}">New NPC</a>
 {% endblock %}

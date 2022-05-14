@@ -13,6 +13,6 @@
     <div>
         <a href="{% url 'Location_Update' location.pk %}">Update</a>
         <a href="{% url 'Location_Delete' location.pk %}">Delete</a>
-        <a href="{% url 'Location_List'%}">Back</a>
+        <a href="{% url 'Location_List' location.campaign.pk%}">Back</a>
     </div>
 {% endblock %}

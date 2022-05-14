@@ -167,7 +167,12 @@ class NPC_Update(UpdateView):
 class NPC_Delete(DeleteView):
     model = NPC
     template_name = "npc_delete.html"
-    success_url = '/'
+    
+    def get_success_url(self, **kwargs):
+        return reverse('NPC_List', args=[self.object.campaign.pk])
+        
+
+
 
 # !SECTION
 

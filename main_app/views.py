@@ -130,6 +130,7 @@ class NPC_List (TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["npcs"] = NPC.objects.all()
+        # context["user"]=User.objects.
         return context
     
 class NPC_Create(CreateView):

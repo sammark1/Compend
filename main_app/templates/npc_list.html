@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+
+{% block header %}
+    {% include 'header.html' with campaign="jello"%}
+{% endblock %}
+
 {% block body %}
     <h1>NPC:</h1>
     {% for npc in npcs %}

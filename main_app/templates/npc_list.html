@@ -5,64 +5,51 @@
 {% endblock %}
 
 {% block body %}
-    <h1>NPC:</h1>
-    {% for npc in npcs %}
-    <div class="container">
-          <div class="row">
-            <div class="col">
-                <a href="{% url 'NPC_Show' npc.pk %}">
-                {{npc.title}}
-                </a>
-            </div>
-            <div class="col">
-                <a href="{% url 'NPC_Show' npc.pk %}">
-                {{npc.given_name}}
-                </a>
-            </div>
-            <div class="col">
-                <a href="{% url 'NPC_Show' npc.pk %}">
-                {{npc.family_name}}
-                </a>
-            </div>
-            <div class="col">
-                <a href="{% url 'NPC_Show' npc.pk %}">
-                {{npc.pronoun}}
-                </a>
-            </div>
-            <div class="col">
-                <a href="{% url 'NPC_Show' npc.pk %}">
-                {{npc.alignment}}
-                </a>
-            </div>
-            <div class="col">
-                <a href="{% url 'NPC_Show' npc.pk %}">
-                {{npc.npc_race}}
-                </a>
-            </div>
-            <div class="col">
-                <a href="{% url 'NPC_Show' npc.pk %}">
-                {{npc.npc_class}}
-                </a>
-            </div>
-            <div class="col">
-                <a href="{% url 'NPC_Show' npc.pk %}">
-                {{npc.age}}
-                </a>
-            </div>
-            <div class="col">
-                <a href="{% url 'NPC_Show' npc.pk %}">
-                {{npc.profession}}
-                </a>
-            </div>
-            <div class="col">
-                {% if npc.home %}
-                <a href="{% url 'Location_Show' npc.home.id %}">
-                {{npc.home}}
-                </a>
-                {% endif %}
-            </div>
-          </div>
-        </div>
-    {% endfor %}
-    <a href="{% url 'NPC_Create' %}">New NPC</a>
+<h1>{{campaign.name}}</h1> <a href="{% url 'NPC_Create' %}">New NPC</a>
+    <div class="table-responsive">
+        <table class="table table-striped table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Given Name</th>
+                    <th scope="col">Family Name</th>
+                    <th scope="col">PN</th>
+                    <th scope="col">Alignment</th>
+                    <th scope="col">Race</th>
+                    <th scope="col">Class</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Position</th>
+                    <th scope="col">Home</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for npc in npcs %}
+                <tr>
+                    {% if npc.title %}
+                    <td>{{npc.title}}</td>
+                    {%else%}
+                    <td></td>
+                    {%endif%}
+                    <td><a href="{% url 'NPC_Show' npc.pk %}">{{npc.given_name}}</a></td>
+                    <td><a href="{% url 'NPC_Show' npc.pk %}">{{npc.family_name}}</a></td>
+                    <td>{{npc.pronoun}}</td>
+                    <td>{{npc.alignment}}</td>
+                    <td>{{npc.npc_race}}</td>
+                    <td>{{npc.npc_class}}</td>
+                    <td>{{npc.age}}</td>
+                    <td>{{npc.profession}}</td>
+                    {% if npc.home %}
+                    <td><a href="{% url 'Location_Show' npc.home.id %}">
+                    {{npc.home}}
+                    </a></td>
+                    {%else%}
+                    <td></td>
+                    {% endif %}
+                    <td>{{npc.physical}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

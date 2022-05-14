@@ -124,15 +124,11 @@ class Campaign_Delete(DeleteView):
 
 #SECTION NPC VIEWS
 
-class NPC_List (TemplateView):
-    template_name = 'npc_list.html'
+def NPC_List(request, pk):
+    campaign = Campaign.objects.get(pk=pk)
+    npcs = NPC.objects.filter(campaign=campaign.id)
+    return render(request, 'npc_list.html', {'campaign':campaign, 'npcs':npcs})
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["npcs"] = NPC.objects.all()
-        # context["user"]=User.objects.
-        return context
-    
 class NPC_Create(CreateView):
     model = NPC
     fields = '__all__'

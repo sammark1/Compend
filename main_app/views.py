@@ -80,6 +80,7 @@ def login_view(request):
             return render(request, 'login.html', {'form': form})
     else:
         form = AuthenticationForm()
+        print('form',form)
         return render(request, 'login.html', {'form': form})
 
 class Campaign_List (TemplateView):

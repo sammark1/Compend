@@ -77,6 +77,8 @@ Compend is also designed to work when shrunk down to a fraction of your screen s
 
 * [Django](https://www.djangoproject.com/)
 * [PostgreSQL](https://www.postgresql.org/)
+* [Bootstrap]()
+* [Django-Crispy-Forms](https://django-crispy-forms.readthedocs.io/en/latest/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

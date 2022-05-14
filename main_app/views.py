@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.views.generic.base import TemplateView
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.db.models import Q
 from django.contrib.auth.models import User
 from django.urls import reverse
 from .models import Campaign, NPC, Location
@@ -125,10 +126,20 @@ class Campaign_Delete(DeleteView):
 
 #SECTION NPC VIEWS
 
-def NPC_List(request, pk):
-    campaign = Campaign.objects.get(pk=pk)
-    npcs = NPC.objects.filter(campaign=campaign.id)
-    return render(request, 'npc_list.html', {'campaign':campaign, 'npcs':npcs})
+class NPC_List(TemplateView):
+    template_name='npc_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        search = self.request.GET.get('search')
+        context["campaign"] = Campaign.objects.get(pk=self.kwargs['pk'])
+        if search != None:
+            context["npcs"] = NPC.objects.filter(
+                Q(given_name__icontains=search) | Q(family_name__icontains=search), 
+                campaign=context['campaign'])
+        else:
+            context["npcs"] = NPC.objects.filter(campaign=context['campaign'])
+        return context
 
 class NPC_Create(CreateView):
     model = NPC

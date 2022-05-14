@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib import messages
 from django.views.generic.base import TemplateView
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -131,10 +132,22 @@ def NPC_List(request, pk):
 
 class NPC_Create(CreateView):
     model = NPC
-    fields = '__all__'
+    fields = ['title','given_name','family_name','alignment','pronoun','npc_class','npc_race','age','physical','profession','home']
     template_name = 'npc_create.html'
-    def get_success_url(self):
-        return reverse('NPC_Show', kwargs={'pk':self.object.pk})
+    success_url = '/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['campaign'] = Campaign.objects.get(pk=self.kwargs['pk'])
+        # print(self)
+        # print(context)
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.campaign = Campaign.objects.get(pk=self.kwargs['pk'])
+        self.object.save()
+        return HttpResponseRedirect(reverse('NPC_Show', kwargs={'pk':self.object.pk}))
     
 class NPC_Show(DetailView):
     model = NPC
@@ -154,7 +167,7 @@ class NPC_Update(UpdateView):
 class NPC_Delete(DeleteView):
     model = NPC
     template_name = "npc_delete.html"
-    success_url = "/npc/"
+    success_url = '/'
 
 # !SECTION
 

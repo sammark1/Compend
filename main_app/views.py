@@ -99,7 +99,7 @@ class Campaign_List (TemplateView):
             context["campaigns"] = Campaign.objects.filter(name__icontains=search)
             context["header"] = f"Searching for {search}"
         else:
-            context["campaigns"] = Campaign.objects.all()
+            context["campaigns"] = Campaign.objects.filter(user=self.request.user)
             context["header"] = "search"
         return context
         

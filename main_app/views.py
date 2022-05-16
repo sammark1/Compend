@@ -22,7 +22,13 @@ class Home(TemplateView):
 
 def profile(request, username):
     user=User.objects.get(username=username)
-    return render(request, 'profile.html', {'user':user})
+    campaigns = Campaign.objects.filter(user=user)
+    npcs=[]
+    locations=[]
+    for campaign in campaigns:
+        npcs.extend(NPC.objects.filter(campaign=campaign))
+        locations.extend(Location.objects.filter(campaign=campaign))
+    return render(request, 'profile.html', {'user':user, 'campaigns_length':len(campaigns), 'npcs_length':len(npcs), 'locations_length':len(locations)})
 
 class profile_update(UpdateView):
     model = User
@@ -136,7 +142,7 @@ class NPC_List(TemplateView):
         context["campaign"] = Campaign.objects.get(pk=self.kwargs['pk'])
         if search != None:
             context["npcs"] = NPC.objects.filter(
-                Q(given_name__icontains=search) | Q(family_name__icontains=search), 
+                Q(given_name__icontains=search) | Q(family_name__icontains=search) | Q(home__name__icontains=search), 
                 campaign=context['campaign'])
         else:
             context["npcs"] = NPC.objects.filter(campaign=context['campaign'])

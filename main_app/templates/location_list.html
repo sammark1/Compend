@@ -5,42 +5,41 @@
 {% endblock %}
 
 {% block body %}
-<!-- name = models.CharField(max_length = 32)
-    campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE)
-    location_type = models.CharField(max_length = 32, choices=LOCATION_CHOICES)
-    geo_location = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name = 'geolocation')
-    political_location = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
-    description = models.CharField -->
-<div class="table-responsive">
-    <table class="table table-striped table-sm">
-        <thead>
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Type</th>
-                <th scope="col">Geographic Locaiton</th>
-                <th scope="col">Political Location</th>
-                <th scope="col">Descritption</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for location in locations %}
-            <tr>
-                <td><a href="{% url 'Location_Show' location.pk %}">{{location.name}}</a></td>
-                <td>{{location.location_type}}</td>
-                {% if location.geo_location %}
-                <td><a href="{% url 'Location_Show' location.geo_location.pk %}">{{location.geo_location}}</a></td>
-                {% else %}
-                <td></td>
-                {% endif %}
-                {% if location.political_location %}
-                <td><a href="{% url 'Location_Show' location.political_location.pk %}">{{location.political_location}}</a></td>
-                {% else %}
-                <td></td>
-                {% endif %}
-                <td>{{location.description}}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<div class="col-xl-8 mx-auto p-3 py-md-2">
+    <div class="table-responsive">
+        <div class="px-2 py-2">
+            <a href="{% url 'Location_Create' campaign.pk %}" class="btn btn-outline-primary">New Location</a>
+        </div>
+        <table class="table table-striped table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Geographic Locaiton</th>
+                    <th scope="col">Political Location</th>
+                    <th scope="col">Descritption</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for location in locations %}
+                <tr>
+                    <td><a href="{% url 'Location_Show' location.pk %}">{{location.name}}</a></td>
+                    <td>{{location.location_type}}</td>
+                    {% if location.geo_location %}
+                    <td><a href="{% url 'Location_Show' location.geo_location.pk %}">{{location.geo_location}}</a></td>
+                    {% else %}
+                    <td></td>
+                    {% endif %}
+                    {% if location.political_location %}
+                    <td><a href="{% url 'Location_Show' location.political_location.pk %}">{{location.political_location}}</a></td>
+                    {% else %}
+                    <td></td>
+                    {% endif %}
+                    <td>{{location.description}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}

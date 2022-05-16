@@ -95,12 +95,12 @@ class Campaign_List (TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         search = self.request.GET.get("search")
-        if search != None:
+        if search != None and search!="":
             context["campaigns"] = Campaign.objects.filter(name__icontains=search)
             context["header"] = f"Searching for {search}"
         else:
             context["campaigns"] = Campaign.objects.filter(user=self.request.user)
-            context["header"] = "search"
+            context["header"] = ""
         return context
         
 

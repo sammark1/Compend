@@ -9,7 +9,6 @@ MODEL_CHOICES = (
 )
 
 class Upload_File_Form(forms.Form):
-    title = forms.CharField(label="title", max_length=50)
     data_type = forms.CharField(label="Select a model", max_length=32, widget=forms.Select(choices=MODEL_CHOICES))
     file = forms.FileField()
 

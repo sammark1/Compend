@@ -1,5 +1,17 @@
 {% extends 'base.html' %} 
+
+{% block header %}
+    {% include 'header.html' with campaign=None%}
+{% endblock %}
+
 {% block body %}
+<div class="py-5 text-center container">
+    <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <h1>{{campaign.name}}</h1>
+        </div>
+    </div>
+</div>
 	<h1>Campaign:{{campaign.name}}</h1>
 
     <div>

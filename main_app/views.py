@@ -117,7 +117,7 @@ class Campaign_Show(DetailView):
 
 class Campaign_Update(UpdateView):
     model = Campaign
-    fields = '__all__'
+    fields = ['name']
     template_name = "campaign_update.html"
     
     def form_valid(self, form):

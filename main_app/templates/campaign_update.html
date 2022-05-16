@@ -1,12 +1,25 @@
 {% extends 'base.html' %} 
 
+{% load crispy_forms_tags %}
+
+{% block header %}
+    {% include 'header.html' with campaign=campaign%}
+{% endblock %}
+
 {% block body %}
-<h1>Update {{campaign.name}}</h1>
-
-<form action="" method="post">
-  {% csrf_token %} 
-  {{form.as_p}} 
-  <input type="submit" value="Submit" />
-</form>
-
+<div class="col-md-4 mx-auto p-3 py-md-5">
+  <div class="card p-3">
+    <h1 class="text-center">Update {{campaign.name}}</h1>
+    <form action="" method="post">
+    {% csrf_token %} 
+    {{form|crispy}} 
+    <div class="d-flex justify-content-left">
+      <input class="btn btn-outline-success" type="submit" value="Submit" />
+      <a href="{% url 'Campaign_Show' campaign.pk%}" class="btn btn-outline-secondary" type="button">Cancel</a>
+    </div>
+    </form>
+    <hr/>
+    <a href="{% url 'Campaign_Delete' campaign.pk%}" class="btn btn-outline-danger">Delete Campaign</a>
+  </div>
+</div>   
 {% endblock %}

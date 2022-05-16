@@ -221,10 +221,20 @@ class Location_List(TemplateView):
     
 class Location_Create(CreateView):
     model = Location
-    fields = '__all__'
+    fields = ['name', 'location_type', 'geo_location', 'political_location', 'description']
     template_name = 'location_create.html'
-    def get_success_url(self):
-        return reverse('Location_Show', kwargs={'pk':self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['campaign'] = Campaign.objects.get(pk=self.kwargs['pk'])
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.campaign = Campaign.objects.get(pk=self.kwargs['pk'])
+        self.object.save()
+        return HttpResponseRedirect(reverse('Location_Show', kwargs={'pk':self.object.pk}))
+
     
 class Location_Show(DetailView):
     model = Location

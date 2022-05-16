@@ -1,12 +1,27 @@
 {% extends 'base.html' %} 
 
+{% load crispy_forms_tags %}
+
+{% block header %}
+    {% include 'header.html' with campaign=campaign%}
+{% endblock %}
+
 {% block body %}
-<h1>Are you sure you want to Delete {{npc.given_name}} {{npc.family_name}}?</h1>
-<form method="post">
-  {% csrf_token %}
-  <div>
-    <input type="submit" value="Confirm" />
-    <a href="{% url 'NPC_Show' npc.pk %}">Cancel</a>
+<div class="col-md-7 mx-auto p-3 py-md-5">
+  <div class="card p-3">
+    <div class="text-center">
+      <h1>Are you sure you want to Delete {{npc.given_name}} {{npc.family_name}}?</h1>
+      <small>This action cannot be undone</small>
+      <hr/>
+    </div>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div>
+      <input type="submit" value="Delete NPC" class="btn btn-outline-danger"/>
+      <a href="{% url 'NPC_Show' npc.pk%}" class="btn btn-outline-secondary">Cancel</a>
+    </div>
+  </form>
   </div>
-</form>
+</div>
 {% endblock %}

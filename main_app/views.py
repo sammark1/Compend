@@ -106,10 +106,19 @@ class Campaign_List (TemplateView):
 
 class Campaign_Create(CreateView):
     model = Campaign
-    fields = '__all__'
+    fields = ['name']
     template_name = 'campaign_create.html'
-    def get_success_url(self):
-        return reverse('Campaign_Show', kwargs={'pk':self.object.pk})
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = self.request.user
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.save()
+        return HttpResponseRedirect(reverse('Campaign_Show', kwargs={'pk':self.object.pk}))
     
 class Campaign_Show(DetailView):
     model = Campaign

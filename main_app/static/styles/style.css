@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Federo&display=swap');
 
 
 .padding {
@@ -85,7 +86,7 @@ h4,
 h5,
 h6 {
     color: #455a64;
-    font-family: "Poppins", sans-serif;
+    font-family: 'Federo', sans-serif;
     font-weight: 400
 }
 
@@ -93,3 +94,14 @@ p {
     margin-top: 0;
     margin-bottom: 1rem
 }
+
+
+body {
+    font-family: "Poppins", sans-serif;
+}
+
+.federo{
+    font-family: 'Federo', sans-serif;
+}
+
+

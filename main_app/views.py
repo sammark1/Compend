@@ -33,7 +33,6 @@ def profile(request, username):
 class profile_update(UpdateView):
     model = User
     fields = ['username', 'email']
-    # fields = '__all__'
     template_name = "profile_update.html"
     def get_success_url(self):
         return reverse('profile', kwargs={'username':self.object.username})
@@ -166,8 +165,6 @@ class NPC_Create(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['campaign'] = Campaign.objects.get(pk=self.kwargs['pk'])
-        # print(self)
-        # print(context)
         return context
 
     def form_valid(self, form):
@@ -252,20 +249,6 @@ class Location_Update(UpdateView):
         self.object.save()
         return HttpResponseRedirect(f'/location/{self.object.id}')
 
-# def Location_Update (request, location_id):
-#     location = Location.objects.get(id=location_id)
-#     if request.method == 'POST':
-#         form = Location_Update_Form(request.POST)
-#         if form.is_valid():
-#             location
-#             location.save()
-#             return HttpResponseRedirect(f'/location/{location_id}')
-#         else:
-#             return render(request, 'location_show.html', {'form':form, 'location':location})
-#     else:
-#         form = Location_Update_Form()
-#         return render(request, 'location_update.html', {'form':form, 'location':location})
-
 
 class Location_Delete(DeleteView):
     model = Location
@@ -293,7 +276,6 @@ def upload_csv(request, pk):
                             section=section.replace(",",";")
                             section=section.replace('"','')
                             quoted[i]=section
-                            # print(quoted)
                     line=''.join(quoted)
                     print(line)
 
@@ -310,14 +292,7 @@ def upload_csv(request, pk):
                     # store quotes string as temp string
                     # swap "," char with ";"
                     # insert temp string at stored index
-
-
-                
-                # blarp = re.split('("[^",]+),([^"]+")', line)
-                # print(blarp)
-                #     for i in range(len(blarp)):
-                #         if '"' in blarp[i]:
-                #             print(blarp[i])
+    
                 entries=line.split(',')
                 match data_type:
                     case "NPC":
@@ -330,9 +305,9 @@ def upload_csv(request, pk):
                             pronoun = entries[4],
                             npc_class = entries[5],
                             npc_race = entries[6],
-                            
-                            physical = [8],
-                            profession = [9],
+                            age = entries[7],
+                            profession = entries[8],
+                            physical = entries[9],
                         )
                         save_instance.save()
                     case "Location":
@@ -345,12 +320,11 @@ def upload_csv(request, pk):
                         save_instance.save()
             match data_type:
                 case "NPC":
-                    return HttpResponseRedirect('/npc/')
+                    return HttpResponseRedirect(f'/campaign/{campaign.id}/npc')
                 case "Location":
-                    return HttpResponseRedirect('/location/')
+                    return HttpResponseRedirect(f'/campaign/{campaign.id}/location')
         else:
-            print('something went wrong')
-            return render(request, 'upload.html', {'form':form})
+            return render(request, 'upload.html', {'form':form, 'campaign':campaign})
     else:
         form = Upload_File_Form()
         return render(request, 'upload.html', {'form':form, 'campaign':campaign})

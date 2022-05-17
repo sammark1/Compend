@@ -10,7 +10,7 @@
 <div class="col-md-4 mx-auto p-3 py-md-5">
   <div class="card p-3">
     <h1 class="text-center">Upload CSV file to {{campaign.name}}</h1>
-    <form action="" method="post">
+    <form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %} 
     {{form|crispy}} 
     <div class="d-flex justify-content-left my-2">

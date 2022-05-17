@@ -205,14 +205,6 @@ class NPC_Delete(DeleteView):
 
 #SECTION Location VIEWS
 
-# class Location_List (TemplateView):
-#     template_name = 'location_list.html'
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context["locations"] = Location.objects.all()
-#         return context
-
 class Location_List(TemplateView):
     template_name='location_list.html'
 
@@ -220,9 +212,9 @@ class Location_List(TemplateView):
         context = super().get_context_data(**kwargs)
         search = self.request.GET.get('search')
         context["campaign"] = Campaign.objects.get(pk=self.kwargs['pk'])
-        if search != None:
+        if search != None and search !="":
             context["locations"] = Location.objects.filter(
-                Q(name__icontains=search), 
+                Q(name__icontains=search) | Q(location_type__icontains=search) | Q(geo_location__name__icontains=search) | Q(political_location__name__icontains=search), 
                 campaign=context['campaign'])
         else:
             context["locations"] = Location.objects.filter(campaign=context['campaign'])

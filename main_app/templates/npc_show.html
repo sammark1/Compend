@@ -1,16 +1,112 @@
 {% extends 'base.html' %} 
+{% block header %}
+    {% include 'header.html' with campaign=npc.campaign%}
+{% endblock %}
+
 {% block body %}
-<h3>In the campaign:</h3>     
-    <a href = "{% url 'Campaign_Show' npc.campaign.pk %}">
-    <h3>{{npc.campaign}}</h3>
-    </a>
-	<h1>NPC:{{npc.given_name}} {{npc.family_name}} ({{npc.pronoun}})</h1>
-
-
-
-    <div>
-        <a href="{% url 'NPC_Update' npc.pk %}">Update</a>
-        <a href="{% url 'NPC_Delete' npc.pk %}">Delete</a>
-        <a href="{% url 'NPC_List'%}">Back</a>
+<div class="my-2"><hr/></div>
+<div class="album py-5 bg-light">
+    <div class="container">
+        <div class="row row-cols-1 g-3">
+            <div class="col">
+                <div class="card shadow-sm">
+                    <div class=" card-img-top bg-image p-5 text-center rounded mb-5 text-white"
+                    style="
+                    background: linear-gradient(#55595c80,#000000d0), url(https://wyrmwoodgaming.com/wp-content/uploads/2020/01/Dice-Skews-MAIN-image-31-scaled.jpg);
+                    background-position: center;
+                    background-size: cover;
+                    ">
+                        <h1 class="mb-3 h2">{{npc.title}} {{npc.given_name}} {{npc.family_name}}</h1>
+                    </div>
+                    <div class="card-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col text-end">
+                                    <h3>Name</h3>
+                                </div>
+                                <div class="col ">
+                                    <p class="align-middle">{{npc.title}} {{npc.given_name}} {{npc.family_name}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col text-end">
+                                    <h3>Pronoun</h3>
+                                </div>
+                                <div class="col ">
+                                    <p class="align-middle">{{npc.pronoun}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col text-end">
+                                    <h3>Alignment</h3>
+                                </div>
+                                <div class="col ">
+                                    <p class="align-middle">{{npc.alignment}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col text-end">
+                                    <h3>Race</h3>
+                                </div>
+                                <div class="col ">
+                                    <p class="align-middle">{{npc.npc_race}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col text-end">
+                                    <h3>Class</h3>
+                                </div>
+                                <div class="col ">
+                                    <p class="align-middle">{{npc.npc_class}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col text-end">
+                                    <h3>Age</h3>
+                                </div>
+                                <div class="col ">
+                                    <p class="align-middle">{{npc.age}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col text-end">
+                                    <h3>Occupation</h3>
+                                </div>
+                                <div class="col ">
+                                    <p class="align-middle">{{npc.profession}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col text-end">
+                                    <h3>Home</h3>
+                                </div>
+                                <div class="col ">
+                                    <p class="align-middle">{{npc.home}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col text-end">
+                                    <h3>Description</h3>
+                                </div>
+                                <div class="col ">
+                                    <p class="align-middle">{{npc.physical}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a href="{% url 'NPC_Update' npc.pk %}" type="button" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                <a href="{% url 'NPC_List' npc.campaign.pk %}" type="button" class="btn btn-sm btn-outline-secondary">Back</a>
+                            </div>
+                            <div class="mx-4">
+                                <small class="text-muted">Updated:</small>
+                                <small class="text-muted">{{location.updated_at}}</small>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 {% endblock %}

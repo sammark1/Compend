@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 
 class Campaign(models.Model):
     name = models.CharField(max_length = 32)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     updated_at = models.DateTimeField(auto_now_add = True, null=True)
     created_at = models.DateTimeField(auto_now_add = True, null=True)
 

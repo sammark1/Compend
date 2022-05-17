@@ -1,4 +1,23 @@
 {% extends 'base.html' %}
+
+{% block header %}
+    {% include 'header.html' with campaign=None%}
+{% endblock %}
+
 {% block body %}
-<h1>Compend Homeium</h1>
+<div class="px-4 py-5 my-5 text-center">
+    <img class="d-block mx-auto mb-4" src="https://yt3.ggpht.com/ytc/AKedOLQyBf0IvKccAR9tmyWBkLT2Z8MRfbk8q1ZPH5M3PA=s88-c-k-c0x00ffffff-no-rj" alt="lucah">
+    <h1 class="display-5 fw-bold">Compend</h1>
+    <div class="col-lg-6 mx-auto">
+      <p class="lead mb-4">Create, Organize, and Add to your Tabletop Campaign Compendium with ease.</p>
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+        <a href="{% url 'login' %}">
+            <button type="button" class="btn btn-primary btn-lg px-4 gap-3">Log in</button>
+        </a>
+        <a href="{% url 'signup' %}">
+            <button type="button" class="btn btn-primary btn-lg px-4 gap-3">Sign up</button>
+        </a>
+      </div>
+    </div>
+  </div>
 {% endblock %}

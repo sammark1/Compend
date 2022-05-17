@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib import messages
 from django.views.generic.base import TemplateView
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.db.models import Q
 from django.contrib.auth.models import User
 from django.urls import reverse
 from .models import Campaign, NPC, Location
@@ -20,12 +22,17 @@ class Home(TemplateView):
 
 def profile(request, username):
     user=User.objects.get(username=username)
-    return render(request, 'profile.html', {'user':user})
+    campaigns = Campaign.objects.filter(user=user)
+    npcs=[]
+    locations=[]
+    for campaign in campaigns:
+        npcs.extend(NPC.objects.filter(campaign=campaign))
+        locations.extend(Location.objects.filter(campaign=campaign))
+    return render(request, 'profile.html', {'user':user, 'campaigns_length':len(campaigns), 'npcs_length':len(npcs), 'locations_length':len(locations)})
 
 class profile_update(UpdateView):
     model = User
     fields = ['username', 'email']
-    # fields = '__all__'
     template_name = "profile_update.html"
     def get_success_url(self):
         return reverse('profile', kwargs={'username':self.object.username})
@@ -78,6 +85,7 @@ def login_view(request):
             return render(request, 'login.html', {'form': form})
     else:
         form = AuthenticationForm()
+        print('form',form)
         return render(request, 'login.html', {'form': form})
 
 class Campaign_List (TemplateView):
@@ -86,21 +94,30 @@ class Campaign_List (TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         search = self.request.GET.get("search")
-        if search != None:
+        if search != None and search!="":
             context["campaigns"] = Campaign.objects.filter(name__icontains=search)
             context["header"] = f"Searching for {search}"
         else:
-            context["campaigns"] = Campaign.objects.all()
-            context["header"] = "search"
+            context["campaigns"] = Campaign.objects.filter(user=self.request.user)
+            context["header"] = ""
         return context
         
 
 class Campaign_Create(CreateView):
     model = Campaign
-    fields = '__all__'
+    fields = ['name']
     template_name = 'campaign_create.html'
-    def get_success_url(self):
-        return reverse('Campaign_Show', kwargs={'pk':self.object.pk})
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = self.request.user
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.save()
+        return HttpResponseRedirect(reverse('Campaign_Show', kwargs={'pk':self.object.pk}))
     
 class Campaign_Show(DetailView):
     model = Campaign
@@ -108,7 +125,7 @@ class Campaign_Show(DetailView):
 
 class Campaign_Update(UpdateView):
     model = Campaign
-    fields = '__all__'
+    fields = ['name']
     template_name = "campaign_update.html"
     
     def form_valid(self, form):
@@ -124,20 +141,37 @@ class Campaign_Delete(DeleteView):
 
 #SECTION NPC VIEWS
 
-class NPC_List (TemplateView):
-    template_name = 'npc_list.html'
+class NPC_List(TemplateView):
+    template_name='npc_list.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["npcs"] = NPC.objects.all()
+        search = self.request.GET.get('search')
+        context["campaign"] = Campaign.objects.get(pk=self.kwargs['pk'])
+        if search != None:
+            context["npcs"] = NPC.objects.filter(
+                Q(given_name__icontains=search) | Q(family_name__icontains=search) | Q(home__name__icontains=search), 
+                campaign=context['campaign'])
+        else:
+            context["npcs"] = NPC.objects.filter(campaign=context['campaign'])
         return context
-    
+
 class NPC_Create(CreateView):
     model = NPC
-    fields = '__all__'
+    fields = ['title','given_name','family_name','alignment','pronoun','npc_class','npc_race','age','physical','profession','home']
     template_name = 'npc_create.html'
-    def get_success_url(self):
-        return reverse('NPC_Show', kwargs={'pk':self.object.pk})
+    success_url = '/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['campaign'] = Campaign.objects.get(pk=self.kwargs['pk'])
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.campaign = Campaign.objects.get(pk=self.kwargs['pk'])
+        self.object.save()
+        return HttpResponseRedirect(reverse('NPC_Show', kwargs={'pk':self.object.pk}))
     
 class NPC_Show(DetailView):
     model = NPC
@@ -157,26 +191,48 @@ class NPC_Update(UpdateView):
 class NPC_Delete(DeleteView):
     model = NPC
     template_name = "npc_delete.html"
-    success_url = "/npc/"
+    
+    def get_success_url(self, **kwargs):
+        return reverse('NPC_List', args=[self.object.campaign.pk])
+        
+
+
 
 # !SECTION
 
 #SECTION Location VIEWS
 
-class Location_List (TemplateView):
-    template_name = 'location_list.html'
+class Location_List(TemplateView):
+    template_name='location_list.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["locations"] = Location.objects.all()
+        search = self.request.GET.get('search')
+        context["campaign"] = Campaign.objects.get(pk=self.kwargs['pk'])
+        if search != None and search !="":
+            context["locations"] = Location.objects.filter(
+                Q(name__icontains=search) | Q(location_type__icontains=search) | Q(geo_location__name__icontains=search) | Q(political_location__name__icontains=search), 
+                campaign=context['campaign'])
+        else:
+            context["locations"] = Location.objects.filter(campaign=context['campaign'])
         return context
     
 class Location_Create(CreateView):
     model = Location
-    fields = '__all__'
+    fields = ['name', 'location_type', 'geo_location', 'political_location', 'description']
     template_name = 'location_create.html'
-    def get_success_url(self):
-        return reverse('Location_Show', kwargs={'pk':self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['campaign'] = Campaign.objects.get(pk=self.kwargs['pk'])
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.campaign = Campaign.objects.get(pk=self.kwargs['pk'])
+        self.object.save()
+        return HttpResponseRedirect(reverse('Location_Show', kwargs={'pk':self.object.pk}))
+
     
 class Location_Show(DetailView):
     model = Location
@@ -192,20 +248,6 @@ class Location_Update(UpdateView):
         self.object.updated_at = datetime.now()
         self.object.save()
         return HttpResponseRedirect(f'/location/{self.object.id}')
-
-# def Location_Update (request, location_id):
-#     location = Location.objects.get(id=location_id)
-#     if request.method == 'POST':
-#         form = Location_Update_Form(request.POST)
-#         if form.is_valid():
-#             location
-#             location.save()
-#             return HttpResponseRedirect(f'/location/{location_id}')
-#         else:
-#             return render(request, 'location_show.html', {'form':form, 'location':location})
-#     else:
-#         form = Location_Update_Form()
-#         return render(request, 'location_update.html', {'form':form, 'location':location})
 
 
 class Location_Delete(DeleteView):
@@ -234,7 +276,6 @@ def upload_csv(request, pk):
                             section=section.replace(",",";")
                             section=section.replace('"','')
                             quoted[i]=section
-                            # print(quoted)
                     line=''.join(quoted)
                     print(line)
 
@@ -251,14 +292,7 @@ def upload_csv(request, pk):
                     # store quotes string as temp string
                     # swap "," char with ";"
                     # insert temp string at stored index
-
-
-                
-                # blarp = re.split('("[^",]+),([^"]+")', line)
-                # print(blarp)
-                #     for i in range(len(blarp)):
-                #         if '"' in blarp[i]:
-                #             print(blarp[i])
+    
                 entries=line.split(',')
                 match data_type:
                     case "NPC":
@@ -271,9 +305,9 @@ def upload_csv(request, pk):
                             pronoun = entries[4],
                             npc_class = entries[5],
                             npc_race = entries[6],
-                            
-                            physical = [8],
-                            profession = [9],
+                            age = entries[7],
+                            profession = entries[8],
+                            physical = entries[9],
                         )
                         save_instance.save()
                     case "Location":
@@ -286,12 +320,11 @@ def upload_csv(request, pk):
                         save_instance.save()
             match data_type:
                 case "NPC":
-                    return HttpResponseRedirect('/npc/')
+                    return HttpResponseRedirect(f'/campaign/{campaign.id}/npc')
                 case "Location":
-                    return HttpResponseRedirect('/location/')
+                    return HttpResponseRedirect(f'/campaign/{campaign.id}/location')
         else:
-            print('something went wrong')
-            return render(request, 'upload.html', {'form':form})
+            return render(request, 'upload.html', {'form':form, 'campaign':campaign})
     else:
         form = Upload_File_Form()
         return render(request, 'upload.html', {'form':form, 'campaign':campaign})

@@ -122,16 +122,16 @@ Now click on one of the tabs and start filling out data for your campaign! Curre
 
 ## User Stories
 
-- [ ] As a user I would like to auth into a secure account using a username or email and a password
-- [ ] As a user I would like to edit and delete my user account.
-- [ ] As a user I would like to create and name a campaign.
-- [ ] As a user I would like to view a campaign dashboard showing recent changes or reminders
-- [ ] As a user I would like to create, read, update, and delete entries in a list of NPCs for my campaign
-- [ ] As a user I would like to create, read, update, and delete entries in a list of Locations for my campaign
-- [ ] As a user I would like to click on related data links to quickly view that data's page
-- [ ] As a user I would like to search my collection for data entries
+- [x] As a user I would like to auth into a secure account using a username or email and a password
+- [x] As a user I would like to edit and delete my user account.
+- [x] As a user I would like to create and name a campaign.
+- [x] As a user I would like to view a campaign dashboard showing recent changes or reminders
+- [x] As a user I would like to create, read, update, and delete entries in a list of NPCs for my campaign
+- [x] As a user I would like to create, read, update, and delete entries in a list of Locations for my campaign
+- [x] As a user I would like to click on related data links to quickly view that data's page
+- [x] As a user I would like to search my collection for data entries
 - [ ] As a user I would like to search all collections for data entries marked “public”
-- [ ] As a user I would like to upload CSV files and convert data into the app
+- [x] As a user I would like to upload CSV files and convert data into the app
 
 See the [open issues](https://github.com/sammark1/Compend/issues) for a full list of proposed features (and known issues).
 

@@ -1,1 +1,1 @@
-web: gunicorn compend.wsgi
+web: gunicorn Compend.wsgi

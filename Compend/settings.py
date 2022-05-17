@@ -130,8 +130,6 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/login/'
 
-WSGI_APPLICATION = 'compend.wsgi.application'
-
 if not os.environ.get('PRODUCTION'):
     from dotenv import load_dotenv
     load_dotenv()

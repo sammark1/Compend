@@ -26,7 +26,7 @@ SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'main_app',
+    'sass_processor',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -138,3 +139,11 @@ django_heroku.settings(locals())
 if not os.environ.get('PRODUCTION'):
     from dotenv import load_dotenv
     load_dotenv()
+
+#Sass processors
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'sass_processor.finders.CssFinder',
+]
+
+SASS_PROCESSOR_ROOT = os.path.join(BASE_DIR,'static')

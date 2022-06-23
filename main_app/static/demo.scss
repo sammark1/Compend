@@ -3,18 +3,22 @@
 
 $primary: #ad4473;
 $secondary: #4a4a59;
+$success: #035576; 
 $light: #f3ece7;
 $white: #fffaf4;
 $dark: #a08d6c;
 $font: #4a4a59;
 
+
+
 body {
-    // font-family: 'Federo', sans-serif !important;
+    font-family: 'Federo', sans-serif !important;
     color: $font !important;
 }
 
 .card{
     max-width: 600px;
+    margin: 0 auto 0 auto;
 }
 
 @import "./scss/bootstrap.scss";

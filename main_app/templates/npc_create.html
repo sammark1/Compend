@@ -8,17 +8,97 @@
 
 {% block body %}
 <div class="col-md-8 mx-auto p-3 py-md-5">
-  <div class="card p-3">
-    <h1 class="text-center">Create NPC in {{campaign.name}}</h1>
+  <div class="card mx-auto">
     <form action="" method="post">
-    {% csrf_token %} 
-    {{form|crispy}} 
-    <div class="d-flex justify-content-left my-2">
-      <input class="btn btn-outline-success" type="submit" value="Submit" />
-      <a href="{% url 'NPC_List' campaign.pk%}" class="btn btn-outline-secondary" type="button">Cancel</a>
+      {% csrf_token %}
+      <div class="bg-light p-3">
+        <h1 class="text-center">Create NPC in {{campaign.name}}</h1>
+        <div class="row px-3">
+          {{form.errors}}
+        </div>
+      </div>
+      <div class="bg-light px-3">
+        <div class="row">
+          <div class="col-4 py-3">
+              {{form.title|as_crispy_field}}
+          </div>
+          <div class="col-4 py-3">
+            {{form.given_name|as_crispy_field}}
+          </div>
+          <div class="col-4 py-3">
+            {{form.family_name|as_crispy_field}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 py-3">
+            {{form.npc_race|as_crispy_field}}
+          </div>
+          <div class="col-6 py-3">
+            {{form.npc_class|as_crispy_field}}
+          </div>
+        </div>
+      </div>
+      <hr class="m-0 b-0"/>
+      <div class="bg-white px-3">
+        <div class="row">
+          <div class="col-4 py-3">
+            {{form.pronoun|as_crispy_field}}
+          </div>
+          <div class="col-4 py-3">
+            {{form.alignment|as_crispy_field}}
+          </div>
+          <div class="col-4 py-3">
+            {{form.age|as_crispy_field}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 py-3">
+            {{form.profession|as_crispy_field}}
+          </div>
+          <div class="col-6 py-3">
+            {{form.home|as_crispy_field}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col py-3">
+            {{form.physical|as_crispy_field}}
+          </div>
+        </div>
+      </div>
+    <!-- {{form|crispy}}  -->
+        <!-- <div class="row">
+          {{ form.errors }}
+          <div class="col-2">
+            {{form.title|as_crispy_field}}
+          </div>
+          <div class="col-5">
+            {{form.given_name|as_crispy_field}}
+          </div>
+          <div class="col-5">
+            {{form.family_name|as_crispy_field}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-2">
+            {{form.alignment|as_crispy_field}}
+          </div>
+          <div class="col-2">
+            {{form.pronoun|as_crispy_field}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            {{form.npc_race|as_crispy_field}}
+          </div>
+          <div class="col">
+            {{form.npc_class|as_crispy_field}}
+          </div>
+        </div> -->
+    <div class="d-flex justify-content-left mb-3">
+      <input class="btn btn-outline-success mx-3" type="submit" value="Submit" />
+      <a href="{% url 'NPC_List' campaign.pk%}" class="btn btn-outline-secondary mx-3" type="button">Cancel</a>
     </div>
     </form>
-    <hr/>
     
   </div>
 </div>   

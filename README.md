@@ -13,7 +13,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/sammark1/Compend">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="ReadmeFiles/CompendLogo.png" alt="Logo" height="80">
   </a>
 
 <h3 align="center">Compend</h3>
@@ -55,7 +55,6 @@
     <li><a href="#user-stories">User Stories</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -179,18 +178,6 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 Sam Mark - samaustinmark@gmail.com
 
 Project Link: [https://github.com/sammark1/Compend](https://github.com/github_username/repo_name)
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-Coming soon
-* []()
-* []()
-* []()
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
